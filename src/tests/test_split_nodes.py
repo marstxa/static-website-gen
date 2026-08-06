@@ -1,7 +1,7 @@
 import unittest
 
-from split_delimiter import split_nodes_delimiter  # Adjust import based on your filename
-from textnode import TextNode, TextType
+from functions.split_delimiter import split_nodes_delimiter
+from nodes.textnode import TextNode, TextType
 
 
 class TestSplitNodesDelimiter(unittest.TestCase):
