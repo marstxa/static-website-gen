@@ -1,0 +1,13 @@
+def markdown_to_blocks(markdown: str) -> list[str]:
+    blocks = markdown.split("\n\n")
+    filtered_blocks = []
+    for block in blocks:
+        if block == "":
+            continue
+
+        block = block.strip()
+
+        if block != "":
+            filtered_blocks.append(block)
+
+    return filtered_blocks
