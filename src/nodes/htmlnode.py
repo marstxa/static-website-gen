@@ -29,21 +29,17 @@ class HTMLNode:
 
 
 class LeafNode(HTMLNode):
-    def __init__(self, tag, value, props=None):
-        super().__init__(tag=tag, value=value, children=None, props=props)
+    def __init__(self, tag: str | None, value: str, props: dict[str, str] | None = None) -> None:
+        super().__init__(tag, value, None, props)
 
-    def to_html(self):
-        if not self.value:
-            raise ValueError("All leafs must have a value")
+    def to_html(self) -> str:
+        if self.value is None:
+            raise ValueError("invalid HTML: no value")
+        if self.tag is None:
+            return self.value
+        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
-        if not self.tag:
-            return str(self.value)
-
-        props = self.props_to_html() if self.props else ""
-
-        return f"<{self.tag}{props}>{self.value}</{self.tag}>"
-
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"LeafNode({self.tag}, {self.value}, {self.props})"
 
 
@@ -51,18 +47,15 @@ class ParentNode(HTMLNode):
     def __init__(self, tag, children=None, props=None):
         super().__init__(tag=tag, children=children, props=None)
 
-    def to_html(self):
-        if not self.tag:
-            raise ValueError("All parents must have a tag")
-
-        if not self.children:
-            raise ValueError("Parent Node has no children")
-
-        inline_html = f"<{self.tag}>"
-
+    def to_html(self) -> str:
+        if self.tag is None:
+            raise ValueError("invalid HTML: no tag")
+        if self.children is None:
+            raise ValueError("invalid HTML: no children")
+        children_html = ""
         for child in self.children:
-            inline_html += child.to_html()
+            children_html += child.to_html()
+        return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
 
-        inline_html += f"</{self.tag}>"
-
-        return inline_html
+    def __repr__(self) -> str:
+        return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
