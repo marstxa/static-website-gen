@@ -37,7 +37,7 @@ def block_to_html_node(block: str) -> HTMLNode:
             items = []
             lines = block.splitlines()
             for line in lines:
-                clean_line = line.lstrip("-* ").strip()
+                clean_line = line.lstrip("- ").strip()
                 children = text_to_children(clean_line)
                 items.append(ParentNode(tag="li", children=children))
             return ParentNode(tag="ul", children=items)

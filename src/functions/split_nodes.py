@@ -13,6 +13,7 @@ def split_text_nodes(old_nodes: list[TextNode], delimiter: str, text_type: TextT
         splitted_nodes = node.text.split(delimiter)
 
         if len(splitted_nodes) % 2 == 0:
+            print(f"\n---> ERROR IN THIS TEXT: '{node.text}'\n")
             raise Exception("Invalid Markdown syntax found")
 
         for i in range(len(splitted_nodes)):
